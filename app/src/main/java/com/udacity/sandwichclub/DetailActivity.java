@@ -1,6 +1,7 @@
 package com.udacity.sandwichclub;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -46,15 +47,11 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        Picasso.with(this)
-                .load(sandwich.getImage())
-                .into(ingredientsIv);
-
-        setTitle(sandwich.getMainName());
 
         /*
          Initialize TextViews
          */
+
 
         TextView knownAs = findViewById(R.id.also_known_tv);
         TextView placeOfOrigin = findViewById(R.id.origin_tv);
@@ -65,24 +62,35 @@ public class DetailActivity extends AppCompatActivity {
          Place data in Textviews
          */
 
+        if(sandwich.getAlsoKnownAs().isEmpty()) knownAs.setText("No Data Found");
         for (int a = 0; a < sandwich.getAlsoKnownAs().size(); a++) {
             knownAs.append(sandwich.getAlsoKnownAs().get(a));
         }
 
+        if(sandwich.getIngredients().isEmpty()) ingredients.setText("No Data Found");
         for (int i = 0; i < sandwich.getIngredients().size(); i++) {
             ingredients.append(sandwich.getIngredients().get(i) + ", ");
         }
 
+        if(sandwich.getDescription().isEmpty()) description.setText("No Data Found");
         description.setText(sandwich.getDescription());
+
+        if(sandwich.getPlaceOfOrigin().isEmpty()) placeOfOrigin.setText("No Data Found");
         placeOfOrigin.setText(sandwich.getPlaceOfOrigin());
 
+
+        Picasso.with(this)
+                .load(sandwich.getImage())
+                .into(ingredientsIv);
+
+
+        setTitle(sandwich.getMainName());
     }
-
-
 
     private void closeOnError() {
         finish();
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
+
 
 }
